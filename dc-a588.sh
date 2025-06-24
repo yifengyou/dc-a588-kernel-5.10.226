@@ -44,22 +44,18 @@ make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 -j$JOB
 # make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 dtbs -j$JOB
 # make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 ${KERNEL_TARGET}.img
 
-mkdir -p ../tools/
-cp arch/arm64/boot/Image ../tools/
+rm -rf output
+mkdir -p output/modules
+cp arch/arm64/boot/Image output
 
-mkdir -p ../rockdev/modules
-find . -name "*.ko" |xargs -i /bin/cp -a {} ../rockdev/modules/
+find . -name "*.ko" |xargs -i /bin/cp -a {} output/modules/
+ls -alh output/modules/
+md5sum  output/modules/*.ko
 
-ls -alh ../rockdev/modules/
-md5sum ../rockdev/modules/*.ko
+cd output
+cp -a ../tools/boot/* .
+../tools/mkimage -f boot.its -E -p 0x800 boot.img
+ls -alh boot.img
+md5sum  boot.img
 
 echo "All done! [$?]"
-
-exit 0
-
-TIMESTAMP=`date +"%Y%m%d%H%M%S"`
-cp Image ok_boot_kernel -a
-mkdir ../rockdev
-../rkbin/tools/mkimage -f boot.its -E -p 0x800 ../rockdev/boot.img
-md5sum ../rockdev/boot.img
-realpath ../rockdev/boot.img
