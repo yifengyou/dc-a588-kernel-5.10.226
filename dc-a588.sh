@@ -4,7 +4,7 @@ set -x
 JOB=`sed -n "N;/processor/p" /proc/cpuinfo|wc -l`
 
 ARCH=`uname -m`
-export KERNEL_TARGET=d3588
+export KERNEL_TARGET=dc-a588
 
 if [ X"${ARCH}" == X"aarch64" ] ; then
 	GCC=""
