@@ -10,6 +10,7 @@
 #
 #
 
+exit 0
 usage() {
 	echo "Usage: $0 [--save-scmversion] [srctree] [branch] [kmi-generation]" >&2
 	exit 1

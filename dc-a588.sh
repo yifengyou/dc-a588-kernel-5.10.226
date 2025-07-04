@@ -2,8 +2,9 @@
 
 set -x
 JOB=`sed -n "N;/processor/p" /proc/cpuinfo|wc -l`
-
+WORKDIR=`pwd`
 ARCH=`uname -m`
+
 export KERNEL_TARGET=dc-a588
 
 if [ X"${ARCH}" == X"aarch64" ] ; then
@@ -26,7 +27,7 @@ fi
 if [ -f .config ] ; then
 	cp -a .config .config-bak
 fi
-make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 ${KERNEL_TARGET}_defconfig
+make ARCH=arm64 Q= CROSS_COMPILE=$CROSS_COMPILE_ARM64 ${KERNEL_TARGET}_defconfig
 if [ $? -ne 0 ] ; then
 	echo "config failed!"
 	exit 1
@@ -40,7 +41,7 @@ if [ -f .config-bak ] ; then
 fi
 
 set -e
-make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 -j$JOB
+make ARCH=arm64 Q= CROSS_COMPILE=$CROSS_COMPILE_ARM64 -j$JOB
 # make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 dtbs -j$JOB
 # make ARCH=arm64 CROSS_COMPILE=$CROSS_COMPILE_ARM64 ${KERNEL_TARGET}.img
 
@@ -54,8 +55,16 @@ md5sum  output/modules/*.ko
 
 cd output
 cp -a ../tools/boot/* .
+cp -a ../arch/arm64/boot/dts/rockchip/rk3588-dc-a588.dtb .
 ../tools/mkimage -f boot.its -E -p 0x800 boot.img
+
 ls -alh boot.img
 md5sum  boot.img
 
+cd ${WORKDIR}
+cat ./include/config/kernel.release
 echo "All done! [$?]"
+
+
+
+

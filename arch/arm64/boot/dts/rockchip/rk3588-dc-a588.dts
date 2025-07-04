@@ -843,7 +843,7 @@
 };
 
 &u2phy0_otg {
-	rockchip,typec-vbus-det;
+	phy-supply = <&vcc5v0_host>;
 };
 
 &u2phy1_otg {
@@ -884,9 +884,4 @@
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart8m1_xfer &uart8m1_ctsn>;
-};
-
-&usbdp_phy1 {
-	rockchip,dp-lane-mux = <2 3>;
-	status = "okay";
 };

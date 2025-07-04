@@ -10,7 +10,7 @@
 
     images {
         fdt {
-            data = /incbin/("dc-a588.dtb");
+            data = /incbin/("rk3588-dc-a588.dtb");
             type = "flat_dt";
             arch = "arm64";
             compression = "none";
