@@ -49,9 +49,9 @@ rm -rf output
 mkdir -p output/modules
 cp arch/arm64/boot/Image output
 
-find . -name "*.ko" |xargs -i /bin/cp -a {} output/modules/
-ls -alh output/modules/
-md5sum  output/modules/*.ko
+#find . -name "*.ko" |xargs -i /bin/cp -a {} output/modules/
+#ls -alh output/modules/
+#md5sum  output/modules/*.ko
 
 cd output
 cp -a ../tools/boot/* .
