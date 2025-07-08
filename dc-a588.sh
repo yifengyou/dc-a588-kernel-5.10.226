@@ -63,8 +63,5 @@ md5sum  boot.img
 
 cd ${WORKDIR}
 cat ./include/config/kernel.release
-echo "All done! [$?]"
-
-
-
+echo "All done!"
 
